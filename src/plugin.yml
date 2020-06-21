@@ -1,0 +1,28 @@
+name: UuChat
+main: com.rabbitown.uuchat.UuChat
+version: 1.0.0-beta.6
+author: Yoooooory
+description: Fight get early day ultra past TrChat.
+softdepend: [Multiverse-Core, PlayerTitle, PlaceholderAPI]
+
+commands:
+  uuchat:
+    aliases: uc
+    description: Plugin commands.
+
+permissions:
+  uuchat.admin:
+    description: UuChat admin permission.
+    children:
+      uuchat.admin.reload: true
+    default: op
+  uuchat.bypass:
+    description: UuChat bypass.
+    children:
+      uuchat.chat.atplayer.bypass: true
+    default: false
+  uuchat.chat:
+    description: Allows player chat and chat with UuChat features.
+    children:
+      uuchat.chat.atplayer: true
+    default: true

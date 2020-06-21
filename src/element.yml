@@ -1,0 +1,25 @@
+elements:
+  world_name:
+    type: 'builtin:world_name'
+    pattern: '§8§l[§r$world$§8§l]'
+    plugin: Multiverse-Core
+    display: alias
+
+  player_title:
+    type: 'builtin:player_title'
+    pattern: '$title$'
+    plugin: PlayerTitle
+
+  player_level:
+    type: 'builtin:player_level'
+    patterns:
+      - '0|§8§l[§aLv§7.$level$§r§8§l]'
+      - '..100|§8§l[§aLv§7.§a$level$§r§8§l]'
+      - '101..200|§8§l[§aLv§7.§e$level$§r§8§l]'
+      - '201..300|§8§l[§aLv§7.§c$level$§r§8§l]'
+      - '300..|§8§l[§aLv§7.§4$level$§r§8§l]'
+
+  player_name:
+    type: 'builtin:player_name'
+    display: 'name'
+    pattern: '$name$'

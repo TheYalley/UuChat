@@ -1,0 +1,12 @@
+##########################
+### UuChat Config Yaml ###
+### Please use § not & ###
+### Because I am lazy. ###
+###   § == Alt + 167   ###
+##########################
+
+general:
+  chat:
+    pattern: '§a$world_name$$player_level$ $player_title$$player_name$ > $message$'
+    functions: ['atplayer']
+    placeholder: false

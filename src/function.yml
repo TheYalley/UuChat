@@ -1,0 +1,18 @@
+functions:
+  atplayer:
+    cooldown: 10000
+    pattern: '§a@$player$'
+    pattern-self: '§e@$player$'
+    input:
+      - '@$player$ '
+      - 'at$player$ '
+      - '$player$ '
+    mention:
+      subtitle: '§a$player$ mentioned you!'
+      fadeIn: 5
+      stay: 85
+      fadeOut: 10
+      sound:
+        name: 'minecraft:entity.wither.spawn'
+        volume: 1.0
+        pitch: 1.0
