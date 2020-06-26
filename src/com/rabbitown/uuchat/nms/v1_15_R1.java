@@ -22,7 +22,7 @@ public class v1_15_R1 implements NMSBase {
         for (Player player : Bukkit.getOnlinePlayers()) {
             ((CraftPlayer) player).getHandle().sendMessage(IChatBaseComponent.ChatSerializer.a(message));
         }
-        Bukkit.getConsoleSender().sendMessage(iMessage.getText());
+        Bukkit.getConsoleSender().sendMessage(iMessage.getString());
     }
 
     @Override
