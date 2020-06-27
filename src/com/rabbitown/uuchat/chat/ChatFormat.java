@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+
 public class ChatFormat {
 
     FileConfiguration config;
@@ -110,7 +112,7 @@ public class ChatFormat {
         while (true) {
             int indexStart = pattern.indexOf("$", index);
             if (indexStart != -1) {
-                json.add("§r" + pattern.substring(index, indexStart));
+                json.add("§r" + parseGeneral(player, pattern.substring(index, indexStart)));
                 int indexEnd = pattern.indexOf("$", indexStart + 1);
                 String elementName = pattern.substring(indexStart + 1, indexEnd);
                 if (elementName.equals("message")) {
@@ -132,11 +134,21 @@ public class ChatFormat {
                 }
                 index = indexEnd + 1;
             } else {
-                json.add("§r" + pattern.substring(index));
+                json.add("§r" + parseGeneral(player, pattern.substring(index)));
                 break;
             }
         }
         return json;
+    }
+
+    protected String parseGeneral(Player player, String str) {
+        if (player == null) {
+            return str;
+        }
+        if (Bukkit.getPluginManager().getPlugin("UuChat").getConfig().getBoolean("general.chat.placeholder")) {
+            str = PlaceholderAPI.setPlaceholders(player, str);
+        }
+        return str.replace("$player$", player.getName());
     }
 
 }
