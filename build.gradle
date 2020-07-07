@@ -1,0 +1,26 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    maven { url 'http://repo.extendedclip.com/content/repositories/placeholderapi' }
+    maven { url 'http://repo.onarandombox.com/content/groups/public' }
+}
+
+configurations {
+    version = '1.0.0-beta.7'
+}
+
+dependencies {
+    implementation 'com.onarandombox.multiversecore:Multiverse-Core:4.1.0'
+    implementation 'me.clip:placeholderapi:2.10.6'
+    
+    implementation fileTree('libs')
+    
+    implementation 'com.google.code.findbugs:annotations:3.0.1'
+    implementation 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+}
+
+processResources {
+    include 'plugin.yml' expand 'version': project.version
+}

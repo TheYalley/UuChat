@@ -2,7 +2,7 @@ name: UuChat
 main: com.rabbitown.uuchat.UuChat
 version: 1.0.0-beta.7
 author: Yoooooory
-description: Fight get early day ultra past TrChat.
+description: An easy but useful chat plugin, I think?
 softdepend: [Multiverse-Core, PlayerTitle, PlaceholderAPI]
 
 commands:
