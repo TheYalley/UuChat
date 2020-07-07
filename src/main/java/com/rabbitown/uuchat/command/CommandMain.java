@@ -38,7 +38,6 @@ public class CommandMain implements CommandExecutor {
         } else {
             sender.sendMessage("§cPermission needing: §7uuchat.admin.reload");
         }
-
     }
 
 }
