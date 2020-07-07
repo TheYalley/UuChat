@@ -20,3 +20,9 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
 }
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        include 'plugin.yml' expand 'version': project.version
+    }
+}
