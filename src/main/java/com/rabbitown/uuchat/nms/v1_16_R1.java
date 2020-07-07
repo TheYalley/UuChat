@@ -1,7 +1,5 @@
 package com.rabbitown.uuchat.nms;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -22,7 +20,7 @@ public class v1_16_R1 implements NMSBase {
     public void sendJSONMessage(String message) {
         IChatBaseComponent iMessage = IChatBaseComponent.ChatSerializer.a(message);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) player).getHandle().sendMessage((IChatBaseComponent[]) Arrays.asList(IChatBaseComponent.ChatSerializer.a(message)).toArray());
+            ((CraftPlayer) player).getHandle().sendMessage(new IChatBaseComponent[] { IChatBaseComponent.ChatSerializer.a(message) });
         }
         Bukkit.getConsoleSender().sendMessage(iMessage.getString());
     }
