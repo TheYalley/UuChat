@@ -9,13 +9,18 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
+import lombok.Setter;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public abstract class ChatElement {
 
     @Getter
+    @Setter
     protected String name;
     @Getter
+    protected String type;
+    @Getter
+    @Setter
     protected ConfigurationSection config;
 
     /**
@@ -24,9 +29,8 @@ public abstract class ChatElement {
      * @param name   聊天元素的名称
      * @param config 聊天元素的配置项
      */
-    protected ChatElement(String name, ConfigurationSection config) {
-        this.name = name;
-        this.config = config;
+    protected ChatElement(String type) {
+        this.type = type;
     }
 
     /**

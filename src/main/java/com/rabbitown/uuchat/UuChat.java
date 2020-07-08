@@ -10,12 +10,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.rabbitown.uuchat.chat.ChatFormat;
-import com.rabbitown.uuchat.chat.element.CustomElement;
-import com.rabbitown.uuchat.chat.element.PlayerLevelElement;
-import com.rabbitown.uuchat.chat.element.PlayerNameElement;
-import com.rabbitown.uuchat.chat.element.PlayerTitleElement;
-import com.rabbitown.uuchat.chat.element.WorldNameElement;
-import com.rabbitown.uuchat.chat.function.AtPlayerFunction;
+import com.rabbitown.uuchat.chat.element.*;
+import com.rabbitown.uuchat.chat.function.*;
 import com.rabbitown.uuchat.command.CommandMain;
 import com.rabbitown.uuchat.listener.PlayerChatListener;
 import com.rabbitown.uuchat.nms.NMSBase;
@@ -30,6 +26,7 @@ public class UuChat extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        formater.loadFormat();
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eなんか静かですね。街の中にはギャラルホルンもいないし本部とはえらい違いだ。");
         if (!loadNMS()) {
             getLogger().severe("Oops..!! Cannot use UuChat in this server. Please report this to the plugin maker.");
@@ -42,7 +39,13 @@ public class UuChat extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        loadPlugin();
+        // Load configs
+        loadConfig();
+        // Register chat elements
+        registerChatElements();
+        registerChatFunctions();
+        formater.loadFormat();
+        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aEverything is ready!");
     }
 
     @Override
@@ -51,9 +54,14 @@ public class UuChat extends JavaPlugin {
     }
 
     public void loadPlugin() {
-        // Load configs
-        /// config.yml
+        loadConfig();
+        formater.loadFormat();
+        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aEverything is ready!");
+    }
+
+    public void loadConfig() {
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading configs...");
+        // config.yml
         saveDefaultConfig();
         reloadConfig();
         if (getConfig().getBoolean("general.chat.placeholder")) {
@@ -64,7 +72,7 @@ public class UuChat extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aFound PlaceholderAPI!");
             }
         }
-        /// element.yml
+        // element.yml
         File elementFile = new File(getDataFolder(), "element.yml");
         if (!elementFile.exists()) {
             saveResource("element.yml", false);
@@ -76,7 +84,7 @@ public class UuChat extends JavaPlugin {
             getLogger().severe("Cannot load element.yml! This plugin maybe doesn't work.");
             return;
         }
-        /// function.yml
+        // function.yml
         File functionFile = new File(getDataFolder(), "function.yml");
         if (!functionFile.exists()) {
             saveResource("function.yml", false);
@@ -88,21 +96,16 @@ public class UuChat extends JavaPlugin {
             getLogger().severe("Cannot load function.yml! This plugin maybe doesn't work.");
             return;
         }
-        // Register chat elements
-        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading elements...");
-        registerChatElements();
-        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading functions...");
-        registerChatFunctions();
-        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aEverything is ready!");
     }
 
     public void registerChatElements() {
-        formater = new ChatFormat(getConfig());
-        formater.registerElement("builtin:custom", CustomElement.class, elementConfig);
-        formater.registerElement("builtin:world_name", WorldNameElement.class, elementConfig);
-        formater.registerElement("builtin:player_name", PlayerNameElement.class, elementConfig);
-        formater.registerElement("builtin:player_title", PlayerTitleElement.class, elementConfig);
-        formater.registerElement("builtin:player_level", PlayerLevelElement.class, elementConfig);
+        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eRegistering elements and functions...");
+        formater = new ChatFormat(getConfig(), elementConfig);
+        formater.registerElement(new CustomElement());
+        formater.registerElement(new WorldNameElement());
+        formater.registerElement(new PlayerNameElement());
+        formater.registerElement(new PlayerTitleElement());
+        formater.registerElement(new PlayerLevelElement());
     }
 
     public void registerChatFunctions() {

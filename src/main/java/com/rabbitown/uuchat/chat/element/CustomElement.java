@@ -3,7 +3,6 @@ package com.rabbitown.uuchat.chat.element;
 import javax.naming.ConfigurationException;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import com.google.gson.JsonElement;
@@ -14,8 +13,8 @@ import com.rabbitown.uuchat.chat.ChatElement;
 
 public class CustomElement extends ChatElement {
 
-    public CustomElement(String name, ConfigurationSection config) {
-        super(name, config);
+    public CustomElement() {
+        super("builtin:custom");
     }
 
     @Override

@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import javax.naming.ConfigurationException;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import com.google.gson.JsonObject;
 import com.rabbitown.uuchat.chat.ChatElement;
@@ -16,8 +15,8 @@ public class PlayerLevelElement extends ChatElement {
 
     Map<String, String> patterns = new HashMap<String, String>();
 
-    public PlayerLevelElement(String name, ConfigurationSection config) {
-        super(name, config);
+    public PlayerLevelElement() {
+        super("builtin:player_level");
     }
 
     @Override
