@@ -35,16 +35,17 @@ public class UuChat extends JavaPlugin {
         }
         Bukkit.getPluginManager().registerEvents(new PlayerChatListener(), this);
         Bukkit.getPluginCommand("uuchat").setExecutor(new CommandMain(this));
+        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aEverything got ready! UuChat is now enabled.");
     }
 
     @Override
     public void onLoad() {
+        formater = new ChatFormat(getConfig());
         // Load configs
         loadConfig();
         // Register chat elements
         registerChatElements();
         registerChatFunctions();
-        formater.loadFormat();
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aEverything is ready!");
     }
 
@@ -56,7 +57,7 @@ public class UuChat extends JavaPlugin {
     public void loadPlugin() {
         loadConfig();
         formater.loadFormat();
-        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aEverything is ready!");
+        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aLoaded successfully!");
     }
 
     public void loadConfig() {
@@ -100,12 +101,11 @@ public class UuChat extends JavaPlugin {
 
     public void registerChatElements() {
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eRegistering elements and functions...");
-        formater = new ChatFormat(getConfig(), elementConfig);
-        formater.registerElement(new CustomElement());
-        formater.registerElement(new WorldNameElement());
-        formater.registerElement(new PlayerNameElement());
-        formater.registerElement(new PlayerTitleElement());
-        formater.registerElement(new PlayerLevelElement());
+        formater.registerElement(new CustomElement(elementConfig));
+        formater.registerElement(new WorldNameElement(elementConfig));
+        formater.registerElement(new PlayerNameElement(elementConfig));
+        formater.registerElement(new PlayerTitleElement(elementConfig));
+        formater.registerElement(new PlayerLevelElement(elementConfig));
     }
 
     public void registerChatFunctions() {

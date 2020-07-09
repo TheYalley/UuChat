@@ -3,6 +3,7 @@ package com.rabbitown.uuchat.chat.element;
 import javax.naming.ConfigurationException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.google.gson.JsonObject;
@@ -13,8 +14,8 @@ public class PlayerTitleElement extends ChatElement {
 
     String plugin;
 
-    public PlayerTitleElement() {
-        super("builtin:player_title");
+    public PlayerTitleElement(FileConfiguration config) {
+        super("builtin:player_title", config);
     }
 
     @Override

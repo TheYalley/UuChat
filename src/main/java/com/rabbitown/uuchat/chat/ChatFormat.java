@@ -2,11 +2,10 @@ package com.rabbitown.uuchat.chat;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -18,16 +17,14 @@ import me.clip.placeholderapi.PlaceholderAPI;
 public class ChatFormat {
 
     FileConfiguration config;
-    FileConfiguration elementConfig;
 
     ArrayList<ChatElement> elements = new ArrayList<ChatElement>();
     ArrayList<ChatFunction> functions = new ArrayList<ChatFunction>();
     ArrayList<ChatElement> activeElements = new ArrayList<ChatElement>();
     ArrayList<ChatFunction> activeFunctions = new ArrayList<ChatFunction>();
 
-    public ChatFormat(FileConfiguration config, FileConfiguration elementConfig) {
+    public ChatFormat(FileConfiguration config) {
         this.config = config;
-        this.elementConfig = elementConfig;
     }
 
     /**
@@ -60,6 +57,14 @@ public class ChatFormat {
         return true;
     }
 
+    public boolean unregisterElement(String type) {
+        return elements.removeIf(s -> s.getType().equals(type));
+    }
+
+    public boolean unregisterFunction(String name) {
+        return functions.removeIf(s -> s.getName().equals(name));
+    }
+
     public void loadFormat() {
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading chat formats...");
         activeElements = new ArrayList<ChatElement>();
@@ -67,33 +72,29 @@ public class ChatFormat {
         // Load elements
         {
             Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading elements...");
-            int index = 0;
-            String pattern = this.config.getString("general.chat.pattern");
-            while (true) {
-                int indexStart = pattern.indexOf("$", index);
-                if (indexStart != -1) {
-                    int indexEnd = pattern.indexOf("$", indexStart + 1);
-                    String elementName = pattern.substring(indexStart + 1, indexEnd);
-                    String elementType = elementConfig.getString("elements." + elementName + ".type");
-                    List<ChatElement> element = elements.stream().filter(s -> s.getType().equals(elementType)).collect(Collectors.toList());
-                    if (elementType != null && element.size() > 0) {
-                        ChatElement celement = element.get(0);
-                        celement.setConfig(elementConfig.getConfigurationSection("elements." + elementName));
-                        celement.setName(elementName);
+            String pattern = config.getString("general.chat.pattern");
+            for (ChatElement celement : elements) {
+                ChatElement element = celement.clone();
+                ConfigurationSection elementConfig = element.getConfig().getConfigurationSection("elements");
+                if (elementConfig == null) {
+                    Bukkit.getLogger().severe("Unable to load element type \"" + element.getType() + "\".");
+                    continue;
+                }
+                for (String key : elementConfig.getKeys(false)) {
+                    if (pattern.contains("$" + key + "$") && elementConfig.getString(key + ".type").equals(element.getType())) {
+                        element.setConfig(elementConfig.getConfigurationSection(key));
+                        element.setName(key);
                         try {
-                            if (celement.loadElement()) {
-                                activeElements.add(celement);
+                            if (element.loadElement()) {
+                                activeElements.add(element);
                             } else {
-                                Bukkit.getLogger().severe("Unable to load element \"" + celement.getName() + "\".");
+                                Bukkit.getLogger().severe("Unable to load element \"" + element.getName() + "\".");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Bukkit.getLogger().severe("Unable to load element \"" + celement.getName() + "\".");
+                            Bukkit.getLogger().severe("Unable to load element \"" + element.getName() + "\".");
                         }
                     }
-                    index = indexEnd + 1;
-                } else {
-                    break;
                 }
             }
         }

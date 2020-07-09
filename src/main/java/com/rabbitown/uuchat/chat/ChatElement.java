@@ -4,6 +4,7 @@ import javax.naming.ConfigurationException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.google.gson.JsonElement;
@@ -12,13 +13,15 @@ import lombok.Getter;
 import lombok.Setter;
 import me.clip.placeholderapi.PlaceholderAPI;
 
-public abstract class ChatElement {
+public abstract class ChatElement implements Cloneable {
 
     @Getter
     @Setter
     protected String name;
+
     @Getter
     protected String type;
+
     @Getter
     @Setter
     protected ConfigurationSection config;
@@ -29,8 +32,9 @@ public abstract class ChatElement {
      * @param name   聊天元素的名称
      * @param config 聊天元素的配置项
      */
-    protected ChatElement(String type) {
+    protected ChatElement(String type, FileConfiguration config) {
         this.type = type;
+        this.config = config;
     }
 
     /**
@@ -130,6 +134,16 @@ public abstract class ChatElement {
             str = PlaceholderAPI.setPlaceholders(player, str);
         }
         return str.replace("$player$", player.getName());
+    }
+
+    @Override
+    public ChatElement clone() {
+        try {
+            return (ChatElement) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

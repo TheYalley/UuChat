@@ -3,6 +3,7 @@ package com.rabbitown.uuchat.chat.element;
 import javax.naming.ConfigurationException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.google.gson.JsonElement;
@@ -13,8 +14,8 @@ public class PlayerNameElement extends ChatElement {
 
     String display;
 
-    public PlayerNameElement() {
-        super("builtin:player_name");
+    public PlayerNameElement(FileConfiguration config) {
+        super("builtin:player_name", config);
     }
 
     @Override
