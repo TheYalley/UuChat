@@ -166,7 +166,7 @@ public class AtPlayerFunction extends ChatFunction {
                 data.put(sender.getName(), new Date().getTime());
                 String pattern = (sender.getName().equals(player) ? this.patternSelf : this.pattern).replace("$player$", '\u200a' + player);
                 StringBuilder sb = new StringBuilder(message);
-                sb.replace(index, index + input.length(), pattern + "§r");
+                sb.replace(index, index + input.length() - 1, pattern + "§r");
                 message = sb.toString();
                 index = message.toLowerCase().indexOf(input.toLowerCase(), index + pattern.length());
             }
