@@ -1,3 +1,4 @@
+// TODO rewrite
 package com.rabbitown.uuchat.chat.function;
 
 import java.util.ArrayList;
