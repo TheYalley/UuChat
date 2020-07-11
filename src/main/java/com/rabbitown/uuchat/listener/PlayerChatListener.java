@@ -13,7 +13,7 @@ public class PlayerChatListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     void onPlayerChat(AsyncPlayerChatEvent event) {
         event.setCancelled(true);
-        JsonArray message = UuChat.formater.parseMessage(event.getMessage(), event.getPlayer());
+        JsonArray message = UuChat.formatter.parseMessage(event.getMessage(), event.getPlayer());
         if (message != null) {
             UuChat.NMS.sendJSONMessage(message.toString());
         }

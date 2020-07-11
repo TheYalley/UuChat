@@ -27,7 +27,7 @@ public class CustomElement extends ChatElement {
             JsonObject object = new JsonObject();
             object.addProperty("text", ParseUtil.parseGeneral(sender, config.getString("pattern")) + "§r");
             try {
-                pattern = addJSONEvents(object, config, sender);
+                pattern = ParseUtil.addJSONEvents(object, config, sender);
             } catch (ConfigurationException e) {
             }
         } else if (config.getString("json") != null) {
@@ -43,7 +43,7 @@ public class CustomElement extends ChatElement {
     public boolean loadElement() {
         if (config.getString("pattern") != null) {
             try {
-                addJSONEvents(new JsonObject(), config, null);
+                ParseUtil.addJSONEvents(new JsonObject(), config, null);
             } catch (ConfigurationException e) {
                 Bukkit.getLogger().warning("Can't load element \"" + name + "\": " + e.getMessage());
                 return false;

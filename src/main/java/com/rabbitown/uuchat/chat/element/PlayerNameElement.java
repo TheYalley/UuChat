@@ -34,7 +34,7 @@ public class PlayerNameElement extends ChatElement {
             return false;
         }
         try {
-            addJSONEvents(new JsonObject(), config, null);
+            ParseUtil.addJSONEvents(new JsonObject(), config, null);
         } catch (ConfigurationException e) {
             Bukkit.getLogger().warning("Can't load element \"" + name + "\": " + e.getMessage());
             return false;
@@ -61,7 +61,7 @@ public class PlayerNameElement extends ChatElement {
         }
         object.addProperty("text", ParseUtil.parseGeneral(sender, config.getString("pattern")).replace("$name$", name));
         try {
-            return addJSONEvents(object, config, sender);
+            return ParseUtil.addJSONEvents(object, config, sender);
         } catch (ConfigurationException e) {
             return null;
         }

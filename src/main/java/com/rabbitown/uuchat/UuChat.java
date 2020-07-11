@@ -16,17 +16,34 @@ import com.rabbitown.uuchat.command.CommandMain;
 import com.rabbitown.uuchat.listener.PlayerChatListener;
 import com.rabbitown.uuchat.nms.NMSBase;
 
+/**
+ * The main class of UuChat.
+ * 
+ * @author Yoooooory
+ */
 public class UuChat extends JavaPlugin {
 
     FileConfiguration elementConfig = new YamlConfiguration();
     FileConfiguration functionConfig = new YamlConfiguration();
 
-    public static ChatFormat formater;
+    /**
+     * The active chat formatter.<p>
+     * You can register (or unregister) an element (or a function) there.
+     * 
+     * @see ChatFormat
+     */
+    public static ChatFormat formatter;
+
+    /**
+     * The active NMS util class.<p>
+     * 
+     * @see NMSBase
+     */
     public static NMSBase NMS;
 
     @Override
     public void onEnable() {
-        formater.loadFormat();
+        formatter.loadFormat();
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eなんか静かですね。街の中にはギャラルホルンもいないし本部とはえらい違いだ。");
         if (!loadNMS()) {
             getLogger().severe("Oops..!! Cannot use UuChat in this server. Please report this to the plugin maker.");
@@ -40,7 +57,7 @@ public class UuChat extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        formater = new ChatFormat(getConfig());
+        formatter = new ChatFormat(getConfig());
         // Load configs
         loadConfig();
         // Register chat elements
@@ -54,12 +71,18 @@ public class UuChat extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §r止まる§7んじゃ§8ねぇぞ§0……。");
     }
 
+    /**
+     * Reload UuChat.
+     */
     public void loadPlugin() {
         loadConfig();
-        formater.loadFormat();
+        formatter.loadFormat();
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aLoaded successfully!");
     }
 
+    /**
+     * Load UuChat configs.
+     */
     public void loadConfig() {
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading configs...");
         // config.yml
@@ -99,19 +122,30 @@ public class UuChat extends JavaPlugin {
         }
     }
 
+    /**
+     * Register default chat elements.
+     */
     public void registerChatElements() {
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eRegistering elements and functions...");
-        formater.registerElement(new CustomElement(elementConfig));
-        formater.registerElement(new WorldNameElement(elementConfig));
-        formater.registerElement(new PlayerNameElement(elementConfig));
-        formater.registerElement(new PlayerTitleElement(elementConfig));
-        formater.registerElement(new PlayerLevelElement(elementConfig));
+        formatter.registerElement(new CustomElement(elementConfig));
+        formatter.registerElement(new WorldNameElement(elementConfig));
+        formatter.registerElement(new PlayerNameElement(elementConfig));
+        formatter.registerElement(new PlayerTitleElement(elementConfig));
+        formatter.registerElement(new PlayerLevelElement(elementConfig));
     }
 
+    /**
+     * Register default chat functions.
+     */
     public void registerChatFunctions() {
-        formater.registerFunction(new AtPlayerFunction(functionConfig.getConfigurationSection("functions.atplayer")));
+        formatter.registerFunction(new AtPlayerFunction(functionConfig.getConfigurationSection("functions.atplayer")));
     }
 
+    /**
+     * Load NMS.
+     * 
+     * @return Whether the NMS loaded successfully.
+     */
     private boolean loadNMS() {
         try {
             NMS = (NMSBase) Class.forName("com.rabbitown.uuchat.nms." + getServer().getClass().getPackage().getName().substring(23)).newInstance();

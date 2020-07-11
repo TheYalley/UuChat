@@ -37,7 +37,7 @@ public class PlayerLevelElement extends ChatElement {
             }
         }
         try {
-            addJSONEvents(new JsonObject(), config, null);
+            ParseUtil.addJSONEvents(new JsonObject(), config, null);
         } catch (ConfigurationException e) {
             Bukkit.getLogger().warning("Can't load element \"" + name + "\": " + e.getMessage());
             return false;
@@ -76,7 +76,7 @@ public class PlayerLevelElement extends ChatElement {
             JsonObject object = new JsonObject();
             object.addProperty("text", ParseUtil.parseGeneral(sender, patterns.get(key)).replace("$level$", String.valueOf(level)));
             try {
-                return addJSONEvents(object, config, sender);
+                return ParseUtil.addJSONEvents(object, config, sender);
             } catch (ConfigurationException e) {
             }
         }

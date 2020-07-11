@@ -1,36 +1,45 @@
 package com.rabbitown.uuchat.chat;
 
-import javax.naming.ConfigurationException;
-
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.rabbitown.uuchat.util.ParseUtil;
-
 import lombok.Getter;
 import lombok.Setter;
 
 public abstract class ChatElement implements Cloneable {
 
+    /**
+     * The element's name that defines in config.yml by users.
+     */
     @Getter
     @Setter
     protected String name;
 
+    /**
+     * The element's type (prefer ID Namespace).<p>
+     * <b>Example:</b> foo:bar
+     */
     @Getter
     protected String type;
 
+    /**
+     * The element's configuration.<p>
+     * Before reloading format, the config is the root of element.yml (or your config).<br>
+     * After that, the config will change to the config's {@code elements.[name]} section.
+     */
     @Getter
     @Setter
     protected ConfigurationSection config;
 
     /**
-     * 构造一个聊天元素对象。
+     * Construct a ChatElement object.
      * 
-     * @param name   聊天元素的名称
-     * @param config 聊天元素的配置项
+     * @param type   The element's type (prefer ID Namespace).
+     * @param config The element's configuration (need a 'elements' section).
+     * @see ChatElement#type
+     * @see ChatElement#config
      */
     protected ChatElement(String type, FileConfiguration config) {
         this.type = type;
@@ -38,82 +47,29 @@ public abstract class ChatElement implements Cloneable {
     }
 
     /**
-     * 加载该聊天元素时会调用此方法。
+     * This method will be called when loading the element (usually for format reloading).
      * 
-     * @return 聊天元素是否加载成功，若此处返回为 false 则不会在 ChatFormat 中注册该元素。
+     * @return The Load result. If return {@code false}, the element won't be enabled.
      */
     public abstract boolean loadElement();
 
     /**
-     * 自动从配置节中读取 clickEvent 和 hoverEvent 并添加到 JSON 对象中。
+     * This method will be called when player sent message. After all elements returned a {@link JsonElement}, the formatter
+     * will connect them together to make up the complete message.
      * 
-     * @param object JSON 文本对象，格式如“{"text":"foo"}”，不允许列表
-     * @param config 指定的配置节，如默认配置 element.yml 中的 elements.world_name 节
-     * @param player 参考玩家，可为 null。
-     * @return 添加了 clickEvent 和 hoverEvent 后的 JSON 对象
-     * @throws ConfigurationException 配置节中存在 clickEvent.action 却不存在 clickEvent.value
-     */
-    final protected JsonObject addJSONEvents(JsonObject object, ConfigurationSection config, Player player) throws ConfigurationException {
-        object = addJSONClickEvent(object, config, player);
-        object = addJSONHoverEvent(object, config, player);
-        return object;
-    }
-
-    protected JsonObject addJSONClickEvent(JsonObject object, ConfigurationSection config, Player player) throws ConfigurationException {
-        if (config.getString("style.clickEvent.action") != null) {
-            if (config.getString("style.clickEvent.value") != null) {
-                JsonObject clickobj = new JsonObject();
-                String action;
-                switch (config.getString("style.clickEvent.action")) {
-                case "run":
-                    action = "run_command";
-                    break;
-                case "suggest":
-                    action = "suggest_command";
-                    break;
-                case "open":
-                    action = "open_url";
-                    break;
-                default:
-                    throw new ConfigurationException("Unknown action \"" + config.getString("style.clickEvent.action") + "\"");
-                }
-                clickobj.addProperty("action", action);
-                clickobj.addProperty("value", ParseUtil.parseGeneral(player, config.getString("style.clickEvent.value")));
-                object.add("clickEvent", clickobj);
-            } else {
-                throw new ConfigurationException("ClickEvent value is null");
-            }
-        }
-        return object;
-    }
-
-    protected JsonObject addJSONHoverEvent(JsonObject object, ConfigurationSection config, Player player) {
-        if (!config.getStringList("style.hoverEvent").isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            config.getStringList("style.hoverEvent").forEach(s -> sb.append("§r" + ParseUtil.parseGeneral(player, s) + "\n"));
-            JsonObject hoverobj = new JsonObject();
-            hoverobj.addProperty("action", "show_text");
-            hoverobj.addProperty("value", sb.toString().substring(0, sb.length() - 1));
-            object.add("hoverEvent", hoverobj);
-        }
-        return object;
-    }
-
-    /**
-     * 插件监听到聊天事件时会逐个调用已注册聊天元素的这个方法，并将获取到的 JSON 文本按配置中的设置拼接在一起。
-     * 
-     * @param message 聊天消息
-     * @param player  发送该聊天的玩家
-     * @return 原始 JSON 文本对象
+     * @param message Original message.
+     * @param player  The message sender.
+     * @return A {@link JsonElement} object of <a href="https://minecraft.gamepedia.com/Raw_JSON_text_format">raw JSON text
+     *         format</a>.
      */
     public abstract JsonElement parseMessage(String message, Player sender);
 
     /**
-     * 插件监听到聊天事件时会逐个调用已注册聊天元素的这个方法，用以检查聊天限制，决定这条消息能否被发送。
+     * This method will be called to decide whether the message can be sent when player trying to send message.
      * 
-     * @param message 聊天消息
-     * @param player  发送该聊天的玩家
-     * @return 若为 true，则消息能够发送；若为 false，该消息将被拦截并无法发送。
+     * @param message Original message.
+     * @param player  The message sender.
+     * @return If return false, the message won't be sent.
      */
     public boolean checkLimit(String message, Player player) {
         return true;

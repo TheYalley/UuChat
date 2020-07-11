@@ -13,13 +13,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.rabbitown.uuchat.util.ParseUtil;
 
+import lombok.Getter;
+
 public class ChatFormat {
 
     FileConfiguration config;
 
+    @Getter
     ArrayList<ChatElement> elements = new ArrayList<ChatElement>();
+    @Getter
     ArrayList<ChatFunction> functions = new ArrayList<ChatFunction>();
+    @Getter
     ArrayList<ChatElement> activeElements = new ArrayList<ChatElement>();
+    @Getter
     ArrayList<ChatFunction> activeFunctions = new ArrayList<ChatFunction>();
 
     public ChatFormat(FileConfiguration config) {
@@ -27,10 +33,11 @@ public class ChatFormat {
     }
 
     /**
-     * 注册一个聊天元素。
+     * Register a chat element.
      * 
-     * @param element 要注册的聊天元素实例
-     * @return 注册结果，成功返回 true，失败则返回 false。
+     * @param element The element need to register.
+     * @return If register succeed, it will return true.
+     * @see ChatFormat#unregisterElement(String)
      */
     public boolean registerElement(ChatElement element) {
         if (elements.stream().anyMatch(s -> s.getType().equals(element.getType()))) {
@@ -42,10 +49,11 @@ public class ChatFormat {
     }
 
     /**
-     * 注册一个聊天函数。
+     * Register a chat function.
      * 
-     * @param function 要注册的聊天函数实例
-     * @return 注册结果，成功返回 true，失败则返回 false。
+     * @param function The function need to register.
+     * @return If register succeed, it will return true.
+     * @see ChatFormat#unregisterFunction(String)
      */
     public boolean registerFunction(ChatFunction function) {
         if (!function.getClass().isAnnotationPresent(FunctionHandle.class)) {
@@ -61,14 +69,31 @@ public class ChatFormat {
         return true;
     }
 
+    /**
+     * Unregister a chat element.
+     * 
+     * @param type The type of the element need to unregister.
+     * @return If no element found, it will return false.
+     * @see ChatFormat#registerElement(ChatElement)
+     */
     public boolean unregisterElement(String type) {
         return elements.removeIf(s -> s.getType().equals(type));
     }
 
+    /**
+     * Unregister a chat function.
+     * 
+     * @param name The name of the function need to unregister.
+     * @return If no function found, it will return false.
+     * @see ChatFormat#unregisterFunction(String)
+     */
     public boolean unregisterFunction(String name) {
         return functions.removeIf(s -> s.getName().equals(name));
     }
 
+    /**
+     * Load chat formats.
+     */
     public void loadFormat() {
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading chat formats...");
         activeElements = new ArrayList<ChatElement>();
@@ -124,6 +149,14 @@ public class ChatFormat {
         Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aFormats loaded successfully!");
     }
 
+    /**
+     * Parse message by using format.
+     * 
+     * @param message Original message.
+     * @param player  The message sender.
+     * @return A {@link JsonArray} object of <a href="https://minecraft.gamepedia.com/Raw_JSON_text_format">raw JSON text
+     *         format</a>. If any active elements or functions refuse the message's sending, the method will return null.
+     */
     @Nullable
     public JsonArray parseMessage(String message, Player player) {
         JsonArray json = new JsonArray();

@@ -54,7 +54,7 @@ public class WorldNameElement extends ChatElement {
             return false;
         }
         try {
-            addJSONEvents(new JsonObject(), config, null);
+            ParseUtil.addJSONEvents(new JsonObject(), config, null);
         } catch (ConfigurationException e) {
             Bukkit.getLogger().warning("Can't load element \"world_name\": " + e.getMessage());
             return false;
@@ -76,7 +76,7 @@ public class WorldNameElement extends ChatElement {
             }
         }
         try {
-            addJSONEvents(object, config, sender);
+            ParseUtil.addJSONEvents(object, config, sender);
         } catch (ConfigurationException e) {
         }
         return object;
