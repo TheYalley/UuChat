@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonObject;
 import com.handy.constants.BaseConstants;
 import com.rabbitown.uuchat.chat.ChatElement;
+import com.rabbitown.uuchat.util.ParseUtil;
 
 public class PlayerTitleElement extends ChatElement {
 
@@ -55,7 +56,7 @@ public class PlayerTitleElement extends ChatElement {
             if (title == null) {
                 title = Bukkit.getPluginManager().getPlugin("PlayerTitle").getConfig().getString("default");
             }
-            object.addProperty("text", parseGeneral(sender, config.getString("pattern")).replace("$title$", title));
+            object.addProperty("text", ParseUtil.parseGeneral(sender, config.getString("pattern")).replace("$title$", title));
         }
         try {
             addJSONEvents(object, config, sender);

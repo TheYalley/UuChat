@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.rabbitown.uuchat.chat.ChatElement;
+import com.rabbitown.uuchat.util.ParseUtil;
 
 public class PlayerNameElement extends ChatElement {
 
@@ -58,7 +59,7 @@ public class PlayerNameElement extends ChatElement {
         default:
             return null;
         }
-        object.addProperty("text", parseGeneral(sender, config.getString("pattern")).replace("$name$", name));
+        object.addProperty("text", ParseUtil.parseGeneral(sender, config.getString("pattern")).replace("$name$", name));
         try {
             return addJSONEvents(object, config, sender);
         } catch (ConfigurationException e) {

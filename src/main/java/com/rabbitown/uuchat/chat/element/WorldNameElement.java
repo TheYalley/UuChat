@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import com.rabbitown.uuchat.chat.ChatElement;
+import com.rabbitown.uuchat.util.ParseUtil;
 
 public class WorldNameElement extends ChatElement {
 
@@ -65,13 +66,13 @@ public class WorldNameElement extends ChatElement {
     public JsonObject parseMessage(String message, Player sender) {
         JsonObject object = new JsonObject();
         if (plugin.equals("Vanilla")) {
-            object.addProperty("text", parseGeneral(sender, config.getString("pattern")).replace("$world$", sender.getWorld().getName()));
+            object.addProperty("text", ParseUtil.parseGeneral(sender, config.getString("pattern")).replace("$world$", sender.getWorld().getName()));
         } else if (plugin.equals("Multiverse-Core")) {
             MultiverseWorld world = ((MultiverseCore) Bukkit.getPluginManager().getPlugin("Multiverse-Core")).getMVWorldManager().getMVWorld(sender.getWorld());
             if (display.equals("alias")) {
-                object.addProperty("text", parseGeneral(sender, config.getString("pattern")).replace("$world$", world.getAlias()).replace('&', '§'));
+                object.addProperty("text", ParseUtil.parseGeneral(sender, config.getString("pattern")).replace("$world$", world.getAlias()).replace('&', '§'));
             } else if (display.equals("name")) {
-                object.addProperty("text", parseGeneral(sender, config.getString("pattern")).replace("$world$", world.getName()));
+                object.addProperty("text", ParseUtil.parseGeneral(sender, config.getString("pattern")).replace("$world$", world.getName()));
             }
         }
         try {

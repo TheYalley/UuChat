@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import com.google.gson.JsonObject;
 import com.rabbitown.uuchat.chat.ChatElement;
+import com.rabbitown.uuchat.util.ParseUtil;
 
 public class PlayerLevelElement extends ChatElement {
 
@@ -73,7 +74,7 @@ public class PlayerLevelElement extends ChatElement {
                 }
             }
             JsonObject object = new JsonObject();
-            object.addProperty("text", parseGeneral(sender, patterns.get(key)).replace("$level$", String.valueOf(level)));
+            object.addProperty("text", ParseUtil.parseGeneral(sender, patterns.get(key)).replace("$level$", String.valueOf(level)));
             try {
                 return addJSONEvents(object, config, sender);
             } catch (ConfigurationException e) {

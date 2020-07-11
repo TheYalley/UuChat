@@ -1,4 +1,4 @@
-// TODO rewrite
+// TODO rewrite FIXME
 package com.rabbitown.uuchat.chat.function;
 
 import java.util.ArrayList;
@@ -19,7 +19,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.rabbitown.uuchat.UuChat;
 import com.rabbitown.uuchat.chat.ChatFunction;
+import com.rabbitown.uuchat.chat.FunctionHandle;
+import com.rabbitown.uuchat.util.ParseUtil;
 
+@FunctionHandle
 public class AtPlayerFunction extends ChatFunction {
 
     int cooldown;
@@ -83,15 +86,15 @@ public class AtPlayerFunction extends ChatFunction {
             String subtitle = null;
             String actionbar = null;
             if (config.getString("mention.title") != null) {
-                title = parseGeneral(sender, config.getString("mention.title"));
+                title = ParseUtil.parseGeneral(sender, config.getString("mention.title"));
             } else if (config.getString("mention.subtitle") != null) {
                 title = "";
             }
             if (config.getString("mention.subtitle") != null) {
-                subtitle = parseGeneral(sender, config.getString("mention.subtitle"));
+                subtitle = ParseUtil.parseGeneral(sender, config.getString("mention.subtitle"));
             }
             if (config.getString("mention.actionbar") != null) {
-                actionbar = parseGeneral(sender, config.getString("mention.actionbar"));
+                actionbar = ParseUtil.parseGeneral(sender, config.getString("mention.actionbar"));
             }
             player.sendTitle(title, subtitle, config.getInt("mention.fadeIn"), config.getInt("mention.stay"), config.getInt("mention.fadeOut"));
             JsonArray action = new JsonArray();

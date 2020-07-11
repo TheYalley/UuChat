@@ -2,16 +2,16 @@ package com.rabbitown.uuchat.chat;
 
 import javax.naming.ConfigurationException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.rabbitown.uuchat.util.ParseUtil;
+
 import lombok.Getter;
 import lombok.Setter;
-import me.clip.placeholderapi.PlaceholderAPI;
 
 public abstract class ChatElement implements Cloneable {
 
@@ -78,7 +78,7 @@ public abstract class ChatElement implements Cloneable {
                     throw new ConfigurationException("Unknown action \"" + config.getString("style.clickEvent.action") + "\"");
                 }
                 clickobj.addProperty("action", action);
-                clickobj.addProperty("value", parseGeneral(player, config.getString("style.clickEvent.value")));
+                clickobj.addProperty("value", ParseUtil.parseGeneral(player, config.getString("style.clickEvent.value")));
                 object.add("clickEvent", clickobj);
             } else {
                 throw new ConfigurationException("ClickEvent value is null");
@@ -90,7 +90,7 @@ public abstract class ChatElement implements Cloneable {
     protected JsonObject addJSONHoverEvent(JsonObject object, ConfigurationSection config, Player player) {
         if (!config.getStringList("style.hoverEvent").isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            config.getStringList("style.hoverEvent").forEach(s -> sb.append("§r" + parseGeneral(player, s) + "\n"));
+            config.getStringList("style.hoverEvent").forEach(s -> sb.append("§r" + ParseUtil.parseGeneral(player, s) + "\n"));
             JsonObject hoverobj = new JsonObject();
             hoverobj.addProperty("action", "show_text");
             hoverobj.addProperty("value", sb.toString().substring(0, sb.length() - 1));
@@ -117,23 +117,6 @@ public abstract class ChatElement implements Cloneable {
      */
     public boolean checkLimit(String message, Player player) {
         return true;
-    }
-
-    /**
-     * 自动转换字符串，包括修改 $player$ 变量以及 PlaceholderAPI 变量等。
-     * 
-     * @param player 玩家
-     * @param str    源字符串
-     * @return 转换完毕后的字符串
-     */
-    protected String parseGeneral(Player player, String str) {
-        if (player == null) {
-            return str;
-        }
-        if (Bukkit.getPluginManager().getPlugin("UuChat").getConfig().getBoolean("general.chat.placeholder")) {
-            str = PlaceholderAPI.setPlaceholders(player, str);
-        }
-        return str.replace("$player$", player.getName());
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.rabbitown.uuchat.chat;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
@@ -11,8 +14,7 @@ import org.bukkit.entity.Player;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-
-import me.clip.placeholderapi.PlaceholderAPI;
+import com.rabbitown.uuchat.util.ParseUtil;
 
 public class ChatFormat {
 
@@ -49,11 +51,16 @@ public class ChatFormat {
      * @return 注册结果，成功返回 true，失败则返回 false。
      */
     public boolean registerFunction(ChatFunction function) {
+        if (!function.getClass().isAnnotationPresent(FunctionHandle.class)) {
+            Bukkit.getLogger().severe("Unable to register function \"" + function.getName() + "\": The class should be added @FunctionHandle to tell UuChat this is a function.");
+            return false;
+        }
         if (functions.stream().anyMatch(s -> s.getName().equals(function.getName()))) {
             Bukkit.getLogger().severe("Unable to register function \"" + function.getName() + "\": A function with the same name has already been registered.");
             return false;
         }
         functions.add(function);
+        functions.sort((s1, s2) -> s1.getClass().getAnnotation(FunctionHandle.class).priority().compareTo(s2.getClass().getAnnotation(FunctionHandle.class).priority()));
         return true;
     }
 
@@ -137,7 +144,7 @@ public class ChatFormat {
         while (true) {
             int indexStart = pattern.indexOf("$", index);
             if (indexStart != -1) {
-                json.add("§r" + parseGeneral(player, pattern.substring(index, indexStart)));
+                json.add("§r" + ParseUtil.parseGeneral(player, pattern.substring(index, indexStart)));
                 int indexEnd = pattern.indexOf("$", indexStart + 1);
                 String elementName = pattern.substring(indexStart + 1, indexEnd);
                 if (elementName.equals("message")) {
@@ -159,21 +166,11 @@ public class ChatFormat {
                 }
                 index = indexEnd + 1;
             } else {
-                json.add("§r" + parseGeneral(player, pattern.substring(index)));
+                json.add("§r" + ParseUtil.parseGeneral(player, pattern.substring(index)));
                 break;
             }
         }
         return json;
-    }
-
-    protected String parseGeneral(Player player, String str) {
-        if (player == null) {
-            return str;
-        }
-        if (Bukkit.getPluginManager().getPlugin("UuChat").getConfig().getBoolean("general.chat.placeholder")) {
-            str = PlaceholderAPI.setPlaceholders(player, str);
-        }
-        return str.replace("$player$", player.getName());
     }
 
 }

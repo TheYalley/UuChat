@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.rabbitown.uuchat.chat.ChatElement;
+import com.rabbitown.uuchat.util.ParseUtil;
 
 public class CustomElement extends ChatElement {
 
@@ -24,14 +25,14 @@ public class CustomElement extends ChatElement {
         if (config.getString("pattern") != null) {
             // {"text":"pattern","hoverEvent":{"action":"show_text","value":"hover"}}
             JsonObject object = new JsonObject();
-            object.addProperty("text", parseGeneral(sender, config.getString("pattern")) + "§r");
+            object.addProperty("text", ParseUtil.parseGeneral(sender, config.getString("pattern")) + "§r");
             try {
                 pattern = addJSONEvents(object, config, sender);
             } catch (ConfigurationException e) {
             }
         } else if (config.getString("json") != null) {
             try {
-                pattern = new JsonParser().parse(parseGeneral(sender, config.getString("json")));
+                pattern = new JsonParser().parse(ParseUtil.parseGeneral(sender, config.getString("json")));
             } catch (JsonSyntaxException e) {
             }
         }
