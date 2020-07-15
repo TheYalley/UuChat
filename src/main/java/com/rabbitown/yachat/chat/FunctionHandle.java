@@ -1,4 +1,4 @@
-package com.rabbitown.uuchat.chat;
+package com.rabbitown.yachat.chat;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

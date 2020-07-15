@@ -1,4 +1,4 @@
-package com.rabbitown.uuchat.chat.element;
+package com.rabbitown.yachat.chat.element;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import com.google.gson.JsonObject;
-import com.rabbitown.uuchat.chat.ChatElement;
-import com.rabbitown.uuchat.util.ParseUtil;
+import com.rabbitown.yachat.chat.ChatElement;
+import com.rabbitown.yachat.util.ParseUtil;
 
 public class PlayerLevelElement extends ChatElement {
 

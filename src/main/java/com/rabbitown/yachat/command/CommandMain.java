@@ -1,22 +1,22 @@
-package com.rabbitown.uuchat.command;
+package com.rabbitown.yachat.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.rabbitown.uuchat.UuChat;
+import com.rabbitown.yachat.YaChat;
 
 public class CommandMain implements CommandExecutor {
 
-    UuChat plugin;
+    YaChat plugin;
 
-    public CommandMain(UuChat plugin) {
+    public CommandMain(YaChat plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equals("uuchat")) {
+        if (command.getName().equals("yachat")) {
             if (args.length == 1) {
                 if (args[0].equals("reload")) {
                     onReloadCommand(sender);
@@ -31,12 +31,12 @@ public class CommandMain implements CommandExecutor {
     }
 
     void onReloadCommand(CommandSender sender) {
-        if (sender.hasPermission("uuchat.admin.reload")) {
+        if (sender.hasPermission("yachat.admin.reload")) {
             sender.sendMessage("§7Reloading plugin...");
             plugin.loadPlugin();
             sender.sendMessage("§aReloaded successfully!");
         } else {
-            sender.sendMessage("§cPermission needing: §7uuchat.admin.reload");
+            sender.sendMessage("§cPermission needing: §7yachat.admin.reload");
         }
     }
 

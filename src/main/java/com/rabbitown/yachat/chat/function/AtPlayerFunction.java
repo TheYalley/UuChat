@@ -1,5 +1,5 @@
 // TODO rewrite FIXME
-package com.rabbitown.uuchat.chat.function;
+package com.rabbitown.yachat.chat.function;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,10 +17,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.rabbitown.uuchat.UuChat;
-import com.rabbitown.uuchat.chat.ChatFunction;
-import com.rabbitown.uuchat.chat.FunctionHandle;
-import com.rabbitown.uuchat.util.ParseUtil;
+import com.rabbitown.yachat.YaChat;
+import com.rabbitown.yachat.chat.ChatFunction;
+import com.rabbitown.yachat.chat.FunctionHandle;
+import com.rabbitown.yachat.util.ParseUtil;
 
 @FunctionHandle
 public class AtPlayerFunction extends ChatFunction {
@@ -99,7 +99,7 @@ public class AtPlayerFunction extends ChatFunction {
             player.sendTitle(title, subtitle, config.getInt("mention.fadeIn"), config.getInt("mention.stay"), config.getInt("mention.fadeOut"));
             JsonArray action = new JsonArray();
             action.add(actionbar);
-            UuChat.NMS.sendActionbar(player, action.toString());
+            YaChat.NMS.sendActionbar(player, action.toString());
             player.playSound(sender.getLocation(), config.getString("mention.sound.name"), (float) config.getDouble("mention.sound.volume"), (float) config.getDouble("mention.sound.pitch"));
         }
         return new JsonParser().parse(message.toString().replace("\u200a", "")).getAsJsonArray();
@@ -182,12 +182,12 @@ public class AtPlayerFunction extends ChatFunction {
 
     public boolean checkLimit(Player player) {
         if (!player.hasPermission("uuchat.chat.atplayer")) {
-            UuChat.NMS.sendJSONMessage("\"§c你没有 @ 他人的权限..\"");
+            YaChat.NMS.sendJSONMessage("\"§c你没有 @ 他人的权限..\"");
             return false;
         } else if (data.get(player.getName()) == null) {
             return true;
         } else if (data.get(player.getName()) + cooldown > new Date().getTime() && !player.hasPermission("uuchat.chat.atplayer.bypass")) {
-            UuChat.NMS.sendActionbar(player, "\"§c@ 功能冷却中..\"");
+            YaChat.NMS.sendActionbar(player, "\"§c@ 功能冷却中..\"");
             return false;
         }
         return true;

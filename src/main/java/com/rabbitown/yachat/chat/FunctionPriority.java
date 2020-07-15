@@ -1,4 +1,4 @@
-package com.rabbitown.uuchat.chat;
+package com.rabbitown.yachat.chat;
 
 /**
  * Represents a chat function's priority.

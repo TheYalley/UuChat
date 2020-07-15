@@ -1,4 +1,4 @@
-package com.rabbitown.uuchat.nms;
+package com.rabbitown.yachat.nms;
 
 import org.bukkit.entity.Player;
 

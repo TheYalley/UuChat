@@ -1,4 +1,4 @@
-package com.rabbitown.uuchat.chat;
+package com.rabbitown.yachat.chat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.rabbitown.uuchat.util.ParseUtil;
+import com.rabbitown.yachat.util.ParseUtil;
 
 import lombok.Getter;
 
@@ -57,7 +57,7 @@ public class ChatFormat {
      */
     public boolean registerFunction(ChatFunction function) {
         if (!function.getClass().isAnnotationPresent(FunctionHandle.class)) {
-            Bukkit.getLogger().severe("Unable to register function \"" + function.getName() + "\": The class should be added @FunctionHandle to tell UuChat this is a function.");
+            Bukkit.getLogger().severe("Unable to register function \"" + function.getName() + "\": The class should be added @FunctionHandle to tell YaChat this is a function.");
             return false;
         }
         if (functions.stream().anyMatch(s -> s.getName().equals(function.getName()))) {
@@ -95,12 +95,12 @@ public class ChatFormat {
      * Load chat formats.
      */
     public void loadFormat() {
-        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading chat formats...");
+        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §eLoading chat formats...");
         activeElements = new ArrayList<ChatElement>();
         activeFunctions = new ArrayList<ChatFunction>();
         // Load elements
         {
-            Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading elements...");
+            Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §eLoading elements...");
             String pattern = config.getString("general.chat.pattern");
             for (ChatElement celement : elements) {
                 ChatElement element = celement.clone();
@@ -129,7 +129,7 @@ public class ChatFormat {
         }
         // Load functions
         {
-            Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §eLoading functions...");
+            Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §eLoading functions...");
             List<String> enableFunctions = config.getStringList("general.chat.functions");
             for (ChatFunction function : functions) {
                 if (enableFunctions.contains(function.getName())) {
@@ -146,7 +146,7 @@ public class ChatFormat {
                 }
             }
         }
-        Bukkit.getConsoleSender().sendMessage("§8[§7UuChat§8] §aFormats loaded successfully!");
+        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §aFormats loaded successfully!");
     }
 
     /**

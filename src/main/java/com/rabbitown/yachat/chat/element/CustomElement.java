@@ -1,4 +1,4 @@
-package com.rabbitown.uuchat.chat.element;
+package com.rabbitown.yachat.chat.element;
 
 import javax.naming.ConfigurationException;
 
@@ -10,8 +10,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.rabbitown.uuchat.chat.ChatElement;
-import com.rabbitown.uuchat.util.ParseUtil;
+import com.rabbitown.yachat.chat.ChatElement;
+import com.rabbitown.yachat.util.ParseUtil;
 
 public class CustomElement extends ChatElement {
 

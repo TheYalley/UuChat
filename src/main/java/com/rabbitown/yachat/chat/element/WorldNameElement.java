@@ -1,4 +1,4 @@
-package com.rabbitown.uuchat.chat.element;
+package com.rabbitown.yachat.chat.element;
 
 import javax.naming.ConfigurationException;
 
@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonObject;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
-import com.rabbitown.uuchat.chat.ChatElement;
-import com.rabbitown.uuchat.util.ParseUtil;
+import com.rabbitown.yachat.chat.ChatElement;
+import com.rabbitown.yachat.util.ParseUtil;
 
 public class WorldNameElement extends ChatElement {
 

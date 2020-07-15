@@ -1,29 +1,29 @@
-name: UuChat
-main: com.rabbitown.uuchat.UuChat
+name: YaChat
+main: com.rabbitown.yachat.YaChat
 version: ${version}
-api-version: 1.15
+api-version: 1.13
 author: Yoooooory
 description: An easy but useful chat plugin, I think?
 softdepend: [Multiverse-Core, PlayerTitle, PlaceholderAPI]
 
 commands:
-  uuchat:
-    aliases: uc
+  yachat:
+    aliases: yc
     description: Plugin commands.
 
 permissions:
-  uuchat.admin:
-    description: UuChat admin permission.
+  ycchat.admin:
+    description: YaChat admin permission.
     children:
-      uuchat.admin.reload: true
+      yachat.admin.reload: true
     default: op
-  uuchat.bypass:
-    description: UuChat bypass.
+  yachat.bypass:
+    description: YaChat bypass.
     children:
-      uuchat.chat.atplayer.bypass: true
+      yachat.chat.atplayer.bypass: true
     default: false
-  uuchat.chat:
-    description: Allows player chat and chat with UuChat features.
+  yachat.chat:
+    description: Allows player chat and chat with YaChat features.
     children:
-      uuchat.chat.atplayer: true
+      yachat.chat.atplayer: true
     default: true

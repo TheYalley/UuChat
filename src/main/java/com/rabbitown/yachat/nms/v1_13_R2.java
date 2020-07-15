@@ -1,4 +1,4 @@
-package com.rabbitown.uuchat.nms;
+package com.rabbitown.yachat.nms;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;

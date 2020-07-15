@@ -1,19 +1,19 @@
-package com.rabbitown.uuchat.nms;
+package com.rabbitown.yachat.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_15_R1.IChatBaseComponent;
-import net.minecraft.server.v1_15_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_15_R1.PacketPlayOutTitle.EnumTitleAction;
-import net.minecraft.server.v1_15_R1.PacketPlayOutTitle;
+import net.minecraft.server.v1_14_R1.IChatBaseComponent;
+import net.minecraft.server.v1_14_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_14_R1.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_14_R1.PacketPlayOutTitle;
 
-public class v1_15_R1 implements NMSBase {
+public class v1_14_R1 implements NMSBase {
 
     @Override
     public String getVersion() {
-        return "v1_15_R1";
+        return "v1_14_R1";
     }
 
     @Override

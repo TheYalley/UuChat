@@ -1,4 +1,4 @@
-package com.rabbitown.uuchat.util;
+package com.rabbitown.yachat.util;
 
 import javax.naming.ConfigurationException;
 
@@ -23,7 +23,7 @@ public class ParseUtil {
         if (player == null) {
             return str;
         }
-        if (Bukkit.getPluginManager().getPlugin("UuChat").getConfig().getBoolean("general.chat.placeholder")) {
+        if (Bukkit.getPluginManager().getPlugin("YaChat").getConfig().getBoolean("general.chat.placeholder")) {
             str = PlaceholderAPI.setPlaceholders(player, str);
         }
         return str.replace("$player$", player.getName());
