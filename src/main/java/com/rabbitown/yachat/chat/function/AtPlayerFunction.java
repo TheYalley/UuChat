@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import com.rabbitown.yachat.YaChat;
 import com.rabbitown.yachat.chat.ChatFunction;
 import com.rabbitown.yachat.chat.FunctionHandle;
+import com.rabbitown.yachat.util.Logger;
 import com.rabbitown.yachat.util.ParseUtil;
 
 @FunctionHandle
@@ -39,12 +40,12 @@ public class AtPlayerFunction extends ChatFunction {
     @Override
     public boolean loadFunction() {
         if (config.getInt("cooldown") <= 0) {
-            Bukkit.getLogger().warning("Can't load function \"atplayer\": Invaild cooldown value.");
+            Logger.warning("Can't load function \"atplayer\": Invaild cooldown value.");
             return false;
         }
         cooldown = config.getInt("cooldown");
         if (config.getString("pattern") == null) {
-            Bukkit.getLogger().warning("Can't load function \"atplayer\": Invaild pattern.");
+            Logger.warning("Can't load function \"atplayer\": Invaild pattern.");
             return false;
         }
         pattern = config.getString("pattern");
@@ -54,11 +55,11 @@ public class AtPlayerFunction extends ChatFunction {
             patternSelf = config.getString("pattern-self");
         }
         if (config.getStringList("input").size() < 1) {
-            Bukkit.getLogger().warning("Can't load function \"atplayer\": Empty input list.");
+            Logger.warning("Can't load function \"atplayer\": Empty input list.");
             return false;
         }
         if (config.getConfigurationSection("mention") == null) {
-            Bukkit.getLogger().warning("Can't load function \"atplayer\": No mention ways found.");
+            Logger.warning("Can't load function \"atplayer\": No mention ways found.");
             return false;
         }
         inputs = config.getStringList("input");

@@ -15,6 +15,7 @@ import com.rabbitown.yachat.chat.function.*;
 import com.rabbitown.yachat.command.CommandMain;
 import com.rabbitown.yachat.listener.PlayerChatListener;
 import com.rabbitown.yachat.nms.NMSBase;
+import com.rabbitown.yachat.util.Logger;
 
 /**
  * The main class of YaChat.
@@ -44,15 +45,15 @@ public class YaChat extends JavaPlugin {
     @Override
     public void onEnable() {
         formatter.loadFormat();
-        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §eなんか静かですね。街の中にはギャラルホルンもいないし本部とはえらい違いだ。");
+        Logger.info("なんか静かですね。街の中にはギャラルホルンもいないし本部とはえらい違いだ。");
         if (!loadNMS()) {
-            getLogger().severe("Oops..!! Cannot use YaChat in this server. Please report this to the plugin maker.");
+            Logger.severe("Oops..!! Cannot use YaChat in this server. Please report this to the plugin maker.");
             getPluginLoader().disablePlugin(this);
             return;
         }
         Bukkit.getPluginManager().registerEvents(new PlayerChatListener(), this);
         Bukkit.getPluginCommand("yachat").setExecutor(new CommandMain(this));
-        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §aEverything got ready! YaChat is now enabled.");
+        Logger.info("§aEverything got ready! YaChat is now enabled.");
     }
 
     @Override
@@ -63,12 +64,12 @@ public class YaChat extends JavaPlugin {
         // Register chat elements
         registerChatElements();
         registerChatFunctions();
-        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §aEverything is ready!");
+        Logger.info("§aEverything is ready!");
     }
 
     @Override
     public void onDisable() {
-        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §r止まる§7んじゃ§8ねぇぞ§0……。");
+        Logger.info("§r止まる§7んじゃ§8ねぇぞ§0……。");
     }
 
     /**
@@ -77,23 +78,23 @@ public class YaChat extends JavaPlugin {
     public void loadPlugin() {
         loadConfig();
         formatter.loadFormat();
-        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §aLoaded successfully!");
+        Logger.info("§aLoaded successfully!");
     }
 
     /**
      * Load YaChat configs.
      */
     public void loadConfig() {
-        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §eLoading configs...");
+        Logger.info("Loading configs...");
         // config.yml
         saveDefaultConfig();
         reloadConfig();
         if (getConfig().getBoolean("general.chat.placeholder")) {
             if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
-                getLogger().warning("Could not find PlaceholderAPI! Some feature may not work.");
+                Logger.warning("Could not find PlaceholderAPI! Some feature may not work.");
                 getConfig().set("general.chat.placeholder", false);
             } else {
-                Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §aFound PlaceholderAPI!");
+                Logger.info("§aFound PlaceholderAPI!");
             }
         }
         // element.yml
@@ -105,7 +106,7 @@ public class YaChat extends JavaPlugin {
             elementConfig.load(elementFile);
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
-            getLogger().severe("Cannot load element.yml! This plugin maybe doesn't work.");
+            Logger.severe("Cannot load element.yml! This plugin maybe doesn't work.");
             return;
         }
         // function.yml
@@ -117,7 +118,7 @@ public class YaChat extends JavaPlugin {
             functionConfig.load(functionFile);
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
-            getLogger().severe("Cannot load function.yml! This plugin maybe doesn't work.");
+            Logger.severe("Cannot load function.yml! This plugin maybe doesn't work.");
             return;
         }
     }
@@ -126,7 +127,7 @@ public class YaChat extends JavaPlugin {
      * Register default chat elements.
      */
     public void registerChatElements() {
-        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §eRegistering elements and functions...");
+        Logger.info("Registering elements and functions...");
         formatter.registerElement(new CustomElement(elementConfig));
         formatter.registerElement(new WorldNameElement(elementConfig));
         formatter.registerElement(new PlayerNameElement(elementConfig));

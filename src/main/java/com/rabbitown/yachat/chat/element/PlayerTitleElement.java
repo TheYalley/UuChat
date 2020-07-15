@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonObject;
 import com.handy.constants.BaseConstants;
 import com.rabbitown.yachat.chat.ChatElement;
+import com.rabbitown.yachat.util.Logger;
 import com.rabbitown.yachat.util.ParseUtil;
 
 public class PlayerTitleElement extends ChatElement {
@@ -27,22 +28,22 @@ public class PlayerTitleElement extends ChatElement {
         }
         if (plugin.equals("PlayerTitle")) {
             if (Bukkit.getPluginManager().getPlugin("PlayerTitle") == null) {
-                Bukkit.getLogger().warning("Can't load element \"" + name + "\": Unable to find PlayerTitle.");
+                Logger.warning("Can't load element \"" + name + "\": Unable to find PlayerTitle.");
                 return false;
             }
             this.plugin = plugin;
         } else {
-            Bukkit.getLogger().warning("Can't load element \"" + name + "\": Unknown setting \"" + plugin + "\".");
+            Logger.warning("Can't load element \"" + name + "\": Unknown setting \"" + plugin + "\".");
             return false;
         }
         if (config.getString("pattern") == null) {
-            Bukkit.getLogger().warning("Can't load element \"" + name + "\": Cannot find the pattern.");
+            Logger.warning("Can't load element \"" + name + "\": Cannot find the pattern.");
             return false;
         }
         try {
             ParseUtil.addJSONEvents(new JsonObject(), config, null);
         } catch (ConfigurationException e) {
-            Bukkit.getLogger().warning("Can't load element \"" + name + "\": " + e.getMessage());
+            Logger.warning("Can't load element \"" + name + "\": " + e.getMessage());
             return false;
         }
         return true;

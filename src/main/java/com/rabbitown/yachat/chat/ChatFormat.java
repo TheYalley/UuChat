@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.rabbitown.yachat.util.Logger;
 import com.rabbitown.yachat.util.ParseUtil;
 
 import lombok.Getter;
@@ -41,7 +41,7 @@ public class ChatFormat {
      */
     public boolean registerElement(ChatElement element) {
         if (elements.stream().anyMatch(s -> s.getType().equals(element.getType()))) {
-            Bukkit.getLogger().severe("Unable to register element \"" + element.getName() + "\": An element with the same name has already been registered.");
+            Logger.severe("Unable to register element \"" + element.getName() + "\": An element with the same name has already been registered.");
             return false;
         }
         elements.add(element);
@@ -57,11 +57,11 @@ public class ChatFormat {
      */
     public boolean registerFunction(ChatFunction function) {
         if (!function.getClass().isAnnotationPresent(FunctionHandle.class)) {
-            Bukkit.getLogger().severe("Unable to register function \"" + function.getName() + "\": The class should be added @FunctionHandle to tell YaChat this is a function.");
+            Logger.severe("Unable to register function \"" + function.getName() + "\": The class should be added @FunctionHandle to tell YaChat this is a function.");
             return false;
         }
         if (functions.stream().anyMatch(s -> s.getName().equals(function.getName()))) {
-            Bukkit.getLogger().severe("Unable to register function \"" + function.getName() + "\": A function with the same name has already been registered.");
+            Logger.severe("Unable to register function \"" + function.getName() + "\": A function with the same name has already been registered.");
             return false;
         }
         functions.add(function);
@@ -95,18 +95,18 @@ public class ChatFormat {
      * Load chat formats.
      */
     public void loadFormat() {
-        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §eLoading chat formats...");
+        Logger.info("Loading chat formats...");
         activeElements = new ArrayList<ChatElement>();
         activeFunctions = new ArrayList<ChatFunction>();
         // Load elements
         {
-            Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §eLoading elements...");
+            Logger.info("Loading elements...");
             String pattern = config.getString("general.chat.pattern");
             for (ChatElement celement : elements) {
                 ChatElement element = celement.clone();
                 ConfigurationSection elementConfig = element.getConfig().getConfigurationSection("elements");
                 if (elementConfig == null) {
-                    Bukkit.getLogger().severe("Unable to load element type \"" + element.getType() + "\".");
+                    Logger.severe("Unable to load element type \"" + element.getType() + "\".");
                     continue;
                 }
                 for (String key : elementConfig.getKeys(false)) {
@@ -117,11 +117,11 @@ public class ChatFormat {
                             if (element.loadElement()) {
                                 activeElements.add(element);
                             } else {
-                                Bukkit.getLogger().severe("Unable to load element \"" + element.getName() + "\".");
+                                Logger.severe("Unable to load element \"" + element.getName() + "\".");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Bukkit.getLogger().severe("Unable to load element \"" + element.getName() + "\".");
+                            Logger.severe("Unable to load element \"" + element.getName() + "\".");
                         }
                     }
                 }
@@ -129,7 +129,7 @@ public class ChatFormat {
         }
         // Load functions
         {
-            Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §eLoading functions...");
+            Logger.info("Loading functions...");
             List<String> enableFunctions = config.getStringList("general.chat.functions");
             for (ChatFunction function : functions) {
                 if (enableFunctions.contains(function.getName())) {
@@ -137,16 +137,16 @@ public class ChatFormat {
                         if (function.loadFunction()) {
                             activeFunctions.add(function);
                         } else {
-                            Bukkit.getLogger().severe("Unable to load function \"" + function.getName() + "\".");
+                            Logger.severe("Unable to load function \"" + function.getName() + "\".");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Bukkit.getLogger().severe("Unable to load function \"" + function.getName() + "\".");
+                        Logger.severe("Unable to load function \"" + function.getName() + "\".");
                     }
                 }
             }
         }
-        Bukkit.getConsoleSender().sendMessage("§8[§7YaChat§8] §aFormats loaded successfully!");
+        Logger.info("§aFormats loaded successfully!");
     }
 
     /**

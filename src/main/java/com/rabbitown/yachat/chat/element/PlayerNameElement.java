@@ -2,13 +2,13 @@ package com.rabbitown.yachat.chat.element;
 
 import javax.naming.ConfigurationException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.rabbitown.yachat.chat.ChatElement;
+import com.rabbitown.yachat.util.Logger;
 import com.rabbitown.yachat.util.ParseUtil;
 
 public class PlayerNameElement extends ChatElement {
@@ -30,13 +30,13 @@ public class PlayerNameElement extends ChatElement {
             this.display = "displayname";
         }
         if (config.getString("pattern") == null) {
-            Bukkit.getLogger().warning("Can't load element \"" + name + "\": Cannot find the pattern.");
+            Logger.warning("Can't load element \"" + name + "\": Cannot find the pattern.");
             return false;
         }
         try {
             ParseUtil.addJSONEvents(new JsonObject(), config, null);
         } catch (ConfigurationException e) {
-            Bukkit.getLogger().warning("Can't load element \"" + name + "\": " + e.getMessage());
+            Logger.warning("Can't load element \"" + name + "\": " + e.getMessage());
             return false;
         }
         return true;

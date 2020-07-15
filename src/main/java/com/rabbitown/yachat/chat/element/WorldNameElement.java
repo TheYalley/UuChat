@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import com.rabbitown.yachat.chat.ChatElement;
+import com.rabbitown.yachat.util.Logger;
 import com.rabbitown.yachat.util.ParseUtil;
 
 public class WorldNameElement extends ChatElement {
@@ -29,7 +30,7 @@ public class WorldNameElement extends ChatElement {
         }
         if (plugin.equals("Multiverse-Core")) {
             if (Bukkit.getPluginManager().getPlugin("Multiverse-Core") == null) {
-                Bukkit.getLogger().warning("Can't load element \"world_name\": Unable to find Multiverse-Core.");
+                Logger.warning("Can't load element \"world_name\": Unable to find Multiverse-Core.");
                 return false;
             }
             this.plugin = plugin;
@@ -40,23 +41,23 @@ public class WorldNameElement extends ChatElement {
             if (display.equals("alias") || display.equals("name")) {
                 this.display = display;
             } else {
-                Bukkit.getLogger().warning("Can't load element \"world_name\": Unknown setting \"" + display + "\".");
+                Logger.warning("Can't load element \"world_name\": Unknown setting \"" + display + "\".");
                 return false;
             }
         } else if (plugin.equals("Vanilla")) {
             this.plugin = plugin;
         } else {
-            Bukkit.getLogger().warning("Can't load element \"world_name\": Unknown setting \"" + plugin + "\".");
+            Logger.warning("Can't load element \"world_name\": Unknown setting \"" + plugin + "\".");
             return false;
         }
         if (config.getString("pattern") == null) {
-            Bukkit.getLogger().warning("Can't load element \"world_name\": Cannot find the pattern.");
+            Logger.warning("Can't load element \"world_name\": Cannot find the pattern.");
             return false;
         }
         try {
             ParseUtil.addJSONEvents(new JsonObject(), config, null);
         } catch (ConfigurationException e) {
-            Bukkit.getLogger().warning("Can't load element \"world_name\": " + e.getMessage());
+            Logger.warning("Can't load element \"world_name\": " + e.getMessage());
             return false;
         }
         return true;

@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 
 import javax.naming.ConfigurationException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import com.google.gson.JsonObject;
 import com.rabbitown.yachat.chat.ChatElement;
+import com.rabbitown.yachat.util.Logger;
 import com.rabbitown.yachat.util.ParseUtil;
 
 public class PlayerLevelElement extends ChatElement {
@@ -26,20 +26,20 @@ public class PlayerLevelElement extends ChatElement {
         for (String pattern : config.getStringList("patterns")) {
             String[] splited = pattern.split("\\|", 2);
             if (splited.length < 2) {
-                Bukkit.getLogger().warning("Can't load element \"" + name + "\" pattern \"" + pattern + "§e\": Missing a pattern.");
+                Logger.warning("Can't load element \"" + name + "\" pattern \"" + pattern + "§e\": Missing a pattern.");
                 continue;
             }
             if (splited[0].equals("{ALL}") || Pattern.matches("\\d+\\.\\.\\d*", splited[0]) || Pattern.matches("\\d*\\.\\.\\d+", splited[0]) || Pattern.matches("\\d", splited[0])) {
                 patterns.put(splited[0], splited[1]);
             } else {
-                Bukkit.getLogger().warning("Can't load element \"" + name + "\" pattern \"" + pattern + "§e\": Unknown setting \"" + splited[0] + "§e\".");
+                Logger.warning("Can't load element \"" + name + "\" pattern \"" + pattern + "§e\": Unknown setting \"" + splited[0] + "§e\".");
                 continue;
             }
         }
         try {
             ParseUtil.addJSONEvents(new JsonObject(), config, null);
         } catch (ConfigurationException e) {
-            Bukkit.getLogger().warning("Can't load element \"" + name + "\": " + e.getMessage());
+            Logger.warning("Can't load element \"" + name + "\": " + e.getMessage());
             return false;
         }
         return true;
