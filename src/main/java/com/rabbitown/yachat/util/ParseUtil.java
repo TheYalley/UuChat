@@ -13,11 +13,12 @@ import me.clip.placeholderapi.PlaceholderAPI;
 public class ParseUtil {
 
     /**
-     * 自动转换字符串，包括修改 $player$ 变量以及 PlaceholderAPI 变量等。
+     * Automatically convert string.<p>
+     * Replace '{@code $player$}' and PlaceholderAPI varibles (if enabled).
      * 
-     * @param player 玩家
-     * @param str    源字符串
-     * @return 转换完毕后的字符串
+     * @param player The player. If got null then return the original string back.
+     * @param str    The source string.
+     * @return The parsed string.
      */
     public static String parseGeneral(Player player, String str) {
         if (player == null) {
@@ -29,17 +30,18 @@ public class ParseUtil {
         return str.replace("$player$", player.getName());
     }
 
-
     /**
-     * 自动从配置节中读取 clickEvent 和 hoverEvent 并添加到 JSON 对象中。
+     * Automatically add clickEvent and hoverEvent read from the config section to the {@link JSONObject}.
      * 
-     * @param object JSON 文本对象，格式如“{"text":"foo"}”，不允许列表
-     * @param config 指定的配置节，如默认配置 element.yml 中的 elements.world_name 节
-     * @param player 参考玩家，可为 null。
-     * @return 添加了 clickEvent 和 hoverEvent 后的 JSON 对象
-     * @throws ConfigurationException 配置节中存在 clickEvent.action 却不存在 clickEvent.value
+     * @param object A {@link JSONObject} with raw JSON text such as '<code>{"text":"foo"}</code>'.
+     * @param config A specified config section, such as '{@code elements.world_name}' section in element.yml.
+     * @param player A reference player. If got null then won't parse string with
+     *               {@link ParseUtil#parseGeneral(Player, String)}
+     * @return The {@link JsonObject} that added clickEvent and hoverEvent.
+     * @throws ConfigurationException If config has the '{@code clickEvent.action}' section but missing
+     *                                '{@code clickEvent.value}' section.
      */
-    
+
     public static JsonObject addJSONEvents(JsonObject object, ConfigurationSection config, Player player) throws ConfigurationException {
         if (config.getString("style.clickEvent.action") != null) {
             if (config.getString("style.clickEvent.value") != null) {
@@ -75,5 +77,5 @@ public class ParseUtil {
         }
         return object;
     }
-    
+
 }

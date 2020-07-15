@@ -10,6 +10,11 @@ import com.rabbitown.yachat.YaChat;
 
 public class PlayerChatListener implements Listener {
 
+    /**
+     * Handle player chatting event.<p>
+     * 
+     * @param event An AsyncPlayerChatEvent.
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     void onPlayerChat(AsyncPlayerChatEvent event) {
         event.setCancelled(true);

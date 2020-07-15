@@ -7,9 +7,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * An annotation to mark classes as a function.
  * 
  * @author Yoooooory
- *
  */
 @Documented
 @Target(ElementType.TYPE)

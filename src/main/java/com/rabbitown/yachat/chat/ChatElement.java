@@ -8,6 +8,11 @@ import com.google.gson.JsonElement;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Represents a chat element.
+ * 
+ * @author Yoooooory
+ */
 public abstract class ChatElement implements Cloneable {
 
     /**
@@ -49,7 +54,7 @@ public abstract class ChatElement implements Cloneable {
     /**
      * This method will be called when loading the element (usually for format reloading).
      * 
-     * @return The Load result. If return {@code false}, the element won't be enabled.
+     * @return The Load result. If return false, the element won't have effect.
      */
     public abstract boolean loadElement();
 

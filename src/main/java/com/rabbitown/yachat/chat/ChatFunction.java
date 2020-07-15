@@ -6,49 +6,63 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonArray;
 import lombok.Getter;
 
+/**
+ * Represents a chat function.
+ * 
+ * @author Yoooooory
+ */
 public abstract class ChatFunction {
 
+    /**
+     * The function's name (prefer ID Namespace).<p>
+     * <b>Example:</b> foo:bar
+     */
     @Getter
     protected String name;
+
+    /**
+     * The function's configuration ('{@code functions.[name]}' section).<p>
+     */
     @Getter
     protected ConfigurationSection config;
-    
+
     /**
-     * 构造一个聊天函数对象。
+     * Construct a ChatFunction object.
      * 
-     * @param name   聊天函数的名称
-     * @param config 聊天函数的配置项
+     * @param name   The function's name (prefer ID Namespace).
+     * @param config The function's configuration ('{@code functions.[name]}' section).
      */
     protected ChatFunction(String name, ConfigurationSection config) {
         this.name = name;
         this.config = config;
     }
-    
+
     /**
-     * 加载该聊天函数时会调用此方法。
+     * This method will be called when loading the function (usually for format reloading).
      * 
-     * @return 聊天函数是否加载成功，若此处返回为 false 则不会在 ChatFormat 中注册该函数。
+     * @return The Load result. If return false, the function won't be enabled.
      */
     public abstract boolean loadFunction();
-    
+
     /**
-     * 插件监听到聊天事件时会逐个调用已注册聊天函数的这个方法，并将玩家发送的消息设置为获取到的 JSON 文本。
+     * This method will be called when player sent message, and the message will be modified to the final return result.
      * 
-     * @param message 已经其他函数处理的聊天消息
-     * @param player  发送该聊天的玩家
-     * @return 原始 JSON 文本对象
+     * @param message The message that might be already modified by other functions.
+     * @param player  The message sender.
+     * @return A {@link JsonArray} object of <a href="https://minecraft.gamepedia.com/Raw_JSON_text_format">raw JSON text
+     *         format</a>.
      */
     public abstract JsonArray parseMessage(JsonArray message, Player player);
 
     /**
-     * 插件监听到聊天事件时会逐个调用已注册聊天函数的这个方法，用以检查聊天限制，决定这条消息能否被发送。
+     * This method will be called to decide whether the message can be sent when player trying to send message.
      * 
-     * @param message 聊天消息
-     * @param sender  发送该聊天的玩家
-     * @return 若为 true，则消息能够发送；若为 false，该消息将被拦截并无法发送。
+     * @param message Original message.
+     * @param sender  The message sender.
+     * @return If return false, the message won't be sent.
      */
     public boolean checkLimit(String message, Player sender) {
         return true;
     }
-    
+
 }

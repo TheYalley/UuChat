@@ -4,7 +4,6 @@ package com.rabbitown.yachat.chat;
  * Represents a chat function's priority.
  * 
  * @author Yoooooory
- *
  */
 public enum FunctionPriority {
 

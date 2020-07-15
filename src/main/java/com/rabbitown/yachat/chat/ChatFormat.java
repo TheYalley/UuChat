@@ -15,6 +15,11 @@ import com.rabbitown.yachat.util.ParseUtil;
 
 import lombok.Getter;
 
+/**
+ * The Yachat formatter.
+ * 
+ * @author Yoooooory
+ */
 public class ChatFormat {
 
     FileConfiguration config;
@@ -28,6 +33,11 @@ public class ChatFormat {
     @Getter
     ArrayList<ChatFunction> activeFunctions = new ArrayList<ChatFunction>();
 
+    /**
+     * Construct a ChatFormat object.
+     * 
+     * @param config The config.yml file.
+     */
     public ChatFormat(FileConfiguration config) {
         this.config = config;
     }
