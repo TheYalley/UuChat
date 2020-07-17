@@ -108,8 +108,8 @@ public class AtPlayerFunction extends ChatFunction {
     }
 
     public boolean checkLimit(Player player) {
-        if (!player.hasPermission("uuchat.chat.atplayer")) {
-            YaChat.NMS.sendJSONMessage("\"§c你没有 @ 他人的权限..\"");
+        if (!player.hasPermission("yachat.chat.atplayer")) {
+            YaChat.NMS.sendActionbar(player, "\"§c你没有 @ 他人的权限..\"");
             return false;
         } else if (data.get(player.getName()) == null) {
             return true;
