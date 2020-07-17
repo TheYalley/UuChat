@@ -61,9 +61,8 @@ public class YaChat extends JavaPlugin {
         formatter = new ChatFormat(getConfig());
         // Load configs
         loadConfig();
-        // Register chat elements
-        registerChatElements();
-        registerChatFunctions();
+        // Register
+        registerDefault();
         Logger.info("§aEverything is ready!");
     }
 
@@ -77,6 +76,9 @@ public class YaChat extends JavaPlugin {
      */
     public void loadPlugin() {
         loadConfig();
+        unregisterDefault();
+        registerDefault();
+        formatter = new ChatFormat(getConfig());
         formatter.loadFormat();
         Logger.info("§aLoaded successfully!");
     }
@@ -124,22 +126,29 @@ public class YaChat extends JavaPlugin {
     }
 
     /**
-     * Register default chat elements.
+     * Register builtin chat elements and functions.
      */
-    public void registerChatElements() {
+    public void registerDefault() {
         Logger.info("Registering elements and functions...");
         formatter.registerElement(new CustomElement(elementConfig));
         formatter.registerElement(new WorldNameElement(elementConfig));
         formatter.registerElement(new PlayerNameElement(elementConfig));
         formatter.registerElement(new PlayerTitleElement(elementConfig));
         formatter.registerElement(new PlayerLevelElement(elementConfig));
-    }
-
-    /**
-     * Register default chat functions.
-     */
-    public void registerChatFunctions() {
         formatter.registerFunction(new AtPlayerFunction(functionConfig.getConfigurationSection("functions.atplayer")));
+    }
+    
+    /**
+     * Unregister builtin chat elements and functions.
+     */
+    public void unregisterDefault() {
+        Logger.info("Unregistering elements and functions...");
+        formatter.unregisterElement("builtin:custom");
+        formatter.unregisterElement("builtin:world_name");
+        formatter.unregisterElement("builtin:player_name");
+        formatter.unregisterElement("builtin:player_title");
+        formatter.unregisterElement("builtin:player_level");
+        formatter.unregisterFunction("builtin:atplayer");
     }
 
     /**

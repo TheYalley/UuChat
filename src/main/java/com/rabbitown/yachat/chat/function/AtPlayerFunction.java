@@ -31,7 +31,7 @@ public class AtPlayerFunction extends ChatFunction {
     Map<String, Long> data = new HashMap<String, Long>();
 
     public AtPlayerFunction(ConfigurationSection config) {
-        super("atplayer", config);
+        super("builtin:atplayer", config);
     }
 
     @Override
