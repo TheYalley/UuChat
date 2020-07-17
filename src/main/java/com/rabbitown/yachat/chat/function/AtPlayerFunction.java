@@ -81,6 +81,7 @@ public class AtPlayerFunction extends ChatFunction {
         if (!foundPlayer.isEmpty() && checkLimit(sender)) {
             message = new JsonArray();
             message.add(raw);
+            data.put(sender.getName(), new Date().getTime());
             String title = null;
             String subtitle = null;
             String actionbar = null;
