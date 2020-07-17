@@ -41,7 +41,6 @@ public class ParseUtil {
      * @throws ConfigurationException If config has the '{@code clickEvent.action}' section but missing
      *                                '{@code clickEvent.value}' section.
      */
-
     public static JsonObject addJSONEvents(JsonObject object, ConfigurationSection config, Player player) throws ConfigurationException {
         if (config.getString("style.clickEvent.action") != null) {
             if (config.getString("style.clickEvent.value") != null) {
@@ -78,4 +77,23 @@ public class ParseUtil {
         return object;
     }
 
+    /**
+     * Replace string with another string just like {@link String#replace(CharSequence, CharSequence)} but ignored case.
+     * 
+     * @param src    The source string.
+     * @param old    The old string.
+     * @param target The target string.
+     * @return Result of replacement.
+     * @see String#replace(CharSequence, CharSequence)
+     */
+    public static String replaceIgnoreCase(String src, String old, String target) {
+        StringBuilder sb = new StringBuilder(src);
+        old = old.toLowerCase();
+        int index = src.toLowerCase().indexOf(old);
+        while (index != -1) {
+            sb.replace(index, index + old.length(), target);
+            index = sb.toString().toLowerCase().indexOf(old, index + target.length());
+        }
+        return sb.toString();
+    }
 }

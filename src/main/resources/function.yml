@@ -3,10 +3,7 @@ functions:
     cooldown: 10000
     pattern: '§a@$player$'
     pattern-self: '§e@$player$'
-    input:
-      - '@$player$ '
-      - 'at$player$ '
-      - '$player$ '
+    input: ['@$player$']
     mention:
       subtitle: '§a$player$ mentioned you!'
       fadeIn: 5
