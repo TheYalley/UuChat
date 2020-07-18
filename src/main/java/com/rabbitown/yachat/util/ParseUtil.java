@@ -83,15 +83,16 @@ public class ParseUtil {
      * @param src    The source string.
      * @param old    The old string.
      * @param target The target string.
-     * @return Result of replacement.
+     * @return Result of replacement. Spaces of old string will be kept.
      * @see String#replace(CharSequence, CharSequence)
      */
     public static String replaceIgnoreCase(String src, String old, String target) {
         StringBuilder sb = new StringBuilder(src);
         old = old.toLowerCase();
+        int space = old.length() - ("A" + old).trim().length() + 1;
         int index = src.toLowerCase().indexOf(old);
         while (index != -1) {
-            sb.replace(index, index + old.length(), target);
+            sb.replace(index, index + old.length() - space, target);
             index = sb.toString().toLowerCase().indexOf(old, index + target.length());
         }
         return sb.toString();
