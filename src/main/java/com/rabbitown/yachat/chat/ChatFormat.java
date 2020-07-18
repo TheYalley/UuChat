@@ -14,6 +14,7 @@ import com.rabbitown.yachat.util.Logger;
 import com.rabbitown.yachat.util.ParseUtil;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * The Yachat formatter.
@@ -22,6 +23,8 @@ import lombok.Getter;
  */
 public class ChatFormat {
 
+    @Setter
+    @Getter
     FileConfiguration config;
 
     @Getter

@@ -76,9 +76,9 @@ public class YaChat extends JavaPlugin {
      */
     public void loadPlugin() {
         loadConfig();
+        formatter.setConfig(getConfig());
         unregisterDefault();
         registerDefault();
-        formatter = new ChatFormat(getConfig());
         formatter.loadFormat();
         Logger.info("§aLoaded successfully!");
     }
