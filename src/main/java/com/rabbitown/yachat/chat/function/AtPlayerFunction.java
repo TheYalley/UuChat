@@ -37,12 +37,12 @@ public class AtPlayerFunction extends ChatFunction {
     @Override
     public boolean loadFunction() {
         if (config.getInt("cooldown") <= 0) {
-            Logger.warning("Can't load function \"atplayer\": Invaild cooldown value.");
+            Logger.warning("Can't load function \"atplayer\": Invalid cooldown value.");
             return false;
         }
         cooldown = config.getInt("cooldown");
         if (config.getString("pattern") == null) {
-            Logger.warning("Can't load function \"atplayer\": Invaild pattern.");
+            Logger.warning("Can't load function \"atplayer\": Invalid pattern.");
             return false;
         }
         pattern = config.getString("pattern");
