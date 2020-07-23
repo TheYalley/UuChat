@@ -135,7 +135,8 @@ public class YaChat extends JavaPlugin {
         formatter.registerElement(new PlayerNameElement(elementConfig));
         formatter.registerElement(new PlayerTitleElement(elementConfig));
         formatter.registerElement(new PlayerLevelElement(elementConfig));
-        formatter.registerFunction(new AtPlayerFunction(functionConfig.getConfigurationSection("functions.atplayer")));
+        formatter.registerFunction(new AtPlayerFunction(functionConfig.getConfigurationSection("functions.at_player")));
+        formatter.registerFunction(new ShowItemFunction(functionConfig.getConfigurationSection("functions.show_item")));
     }
     
     /**

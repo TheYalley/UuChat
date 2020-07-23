@@ -14,6 +14,6 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FunctionHandle {
+public @interface MessageHandler {
     FunctionPriority priority() default FunctionPriority.NORMAL;
 }

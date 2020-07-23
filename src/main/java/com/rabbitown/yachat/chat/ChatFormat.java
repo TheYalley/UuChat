@@ -69,8 +69,8 @@ public class ChatFormat {
      * @see ChatFormat#unregisterFunction(String)
      */
     public boolean registerFunction(ChatFunction function) {
-        if (!function.getClass().isAnnotationPresent(FunctionHandle.class)) {
-            Logger.severe("Unable to register function \"" + function.getName() + "\": The class should be added @FunctionHandle to tell YaChat this is a function.");
+        if (!function.getClass().isAnnotationPresent(MessageHandler.class)) {
+            Logger.severe("Unable to register function \"" + function.getName() + "\": The class should be added @MessageHandler to tell YaChat this is a function.");
             return false;
         }
         if (functions.stream().anyMatch(s -> s.getName().equals(function.getName()))) {
@@ -78,7 +78,7 @@ public class ChatFormat {
             return false;
         }
         functions.add(function);
-        functions.sort((s1, s2) -> s1.getClass().getAnnotation(FunctionHandle.class).priority().compareTo(s2.getClass().getAnnotation(FunctionHandle.class).priority()));
+        functions.sort((s1, s2) -> s1.getClass().getAnnotation(MessageHandler.class).priority().compareTo(s2.getClass().getAnnotation(MessageHandler.class).priority()));
         return true;
     }
 

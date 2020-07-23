@@ -8,5 +8,5 @@
 general:
   chat:
     pattern: '§a$world_name$$player_level$ $player_title$$player_name$ > $message$'
-    functions: ['builtin:atplayer']
+    functions: ['builtin:at_player', 'builtin:show_item']
     placeholder: false

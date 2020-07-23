@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.rabbitown.yachat.chat.FunctionPriority;
+import com.rabbitown.yachat.chat.MessageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -16,11 +18,10 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonArray;
 import com.rabbitown.yachat.YaChat;
 import com.rabbitown.yachat.chat.ChatFunction;
-import com.rabbitown.yachat.chat.FunctionHandle;
 import com.rabbitown.yachat.util.Logger;
 import com.rabbitown.yachat.util.ParseUtil;
 
-@FunctionHandle
+@MessageHandler(priority = FunctionPriority.LOWEST)
 public class AtPlayerFunction extends ChatFunction {
 
     int cooldown;
@@ -31,7 +32,7 @@ public class AtPlayerFunction extends ChatFunction {
     Map<String, Long> data = new HashMap<String, Long>();
 
     public AtPlayerFunction(ConfigurationSection config) {
-        super("builtin:atplayer", config);
+        super("builtin:at_player", config);
     }
 
     @Override
