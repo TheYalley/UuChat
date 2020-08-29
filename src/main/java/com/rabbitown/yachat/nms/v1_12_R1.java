@@ -30,7 +30,7 @@ public class v1_12_R1 implements NMSBase {
         try {
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutTitle(EnumTitleAction.ACTIONBAR, ChatSerializer.a(message)));
         } catch (Exception e) {
-            return;
+            e.printStackTrace();
         }
     }
 
