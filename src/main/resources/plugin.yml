@@ -4,18 +4,14 @@ version: ${version}
 api-version: 1.13
 author: Yoooooory
 description: An easy but useful chat plugin, I think?
-softdepend: [Multiverse-Core, PlayerTitle, PlaceholderAPI]
-
-commands:
-  yachat:
-    aliases: yc
-    description: Plugin commands.
+depend: [YaLib]
+softdepend: [PlaceholderAPI]
 
 permissions:
   ycchat.admin:
     description: YaChat admin permission.
     children:
-      yachat.admin.reload: true
+      yachat.command.reload: true
     default: op
   yachat.bypass:
     description: YaChat bypass.

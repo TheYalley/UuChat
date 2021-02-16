@@ -1,0 +1,5 @@
+prefix: '§8[§eYaChat§8] §7'
+
+command:
+  reload:
+    succeed: '插件重载成功.'
